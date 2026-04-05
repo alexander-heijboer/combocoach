@@ -1,0 +1,635 @@
+import { useState } from 'react';
+import { useAppStore } from '../store/useAppStore';
+import { Volume2, VolumeX, Vibrate, VibrateOff, Trash2, ArrowLeft, Type, Hash, Shield, Mic, MicOff, Timer, Wand2, ExternalLink, Lock, Music } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+export default function Settings() {
+  const { 
+    hapticsEnabled, 
+    soundEnabled, 
+    voiceCommandsEnabled,
+    combinationMode,
+    stance,
+    workoutPace,
+    geminiApiKey,
+    isPro,
+    selectedMusicProvider,
+    toggleHaptics, 
+    toggleSound, 
+    toggleVoiceCommands,
+    toggleCombinationMode,
+    toggleStance,
+    setProModalOpen,
+    randomizedCombos,
+    toggleRandomizedCombos,
+    burnoutMode,
+    toggleBurnoutMode,
+    visualRhythm,
+    toggleVisualRhythm,
+    setWorkoutPace,
+    setGeminiApiKey,
+    setMusicProvider,
+    fullReset
+  } = useAppStore();
+  const navigate = useNavigate();
+
+  const handleReset = async () => {
+    if (window.confirm("ARE YOU SURE? This will permanently delete all history, settings, and API keys. This cannot be undone.")) {
+      await fullReset();
+      alert("Application has been fully reset.");
+    }
+  };
+
+  const [showKey, setShowKey] = useState(false);
+
+  return (
+    <div className="animate-in">
+      <div className="page-header">
+        <h1 className="heading-xl">Settings</h1>
+        <button 
+          onClick={() => navigate(-1)}
+          className="header-action"
+        >
+          <ArrowLeft size={22} />
+        </button>
+      </div>
+
+      <div className="card animate-in" style={{ marginTop: '32px', animationDelay: '0.1s' }}>
+        <h2 className="heading-m" style={{ marginBottom: '24px', letterSpacing: '0.5px' }}>Preferences</h2>
+        
+        <div className="flex-between spring-press" style={{ marginBottom: '24px', cursor: 'pointer' }} onClick={toggleSound}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: soundEnabled ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+              {soundEnabled ? <Volume2 size={22} color="var(--accent-primary)" /> : <VolumeX size={22} color="var(--text-muted)" />}
+            </div>
+            <span style={{ fontSize: '1rem', fontWeight: '700' }}>Sound Cues</span>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: soundEnabled ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: soundEnabled ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+
+        <div className="flex-between spring-press" style={{ marginBottom: '24px', cursor: 'pointer' }} onClick={toggleHaptics}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: hapticsEnabled ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+              {hapticsEnabled ? <Vibrate size={22} color="var(--accent-primary)" /> : <VibrateOff size={22} color="var(--text-muted)" />}
+            </div>
+            <span style={{ fontSize: '1rem', fontWeight: '700' }}>Haptic Feedback</span>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: hapticsEnabled ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: hapticsEnabled ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+
+        <div className="spring-press" style={{ marginBottom: '24px', cursor: 'pointer' }} onClick={toggleVoiceCommands}>
+          <div className="flex-between">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ padding: '10px', borderRadius: '12px', background: voiceCommandsEnabled ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+                {voiceCommandsEnabled ? <Mic size={22} color="var(--accent-primary)" /> : <MicOff size={22} color="var(--text-muted)" />}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '1rem', fontWeight: '700' }}>Voice Commands</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Hands-free workout control</span>
+              </div>
+            </div>
+            <div 
+              style={{ 
+                width: '50px', 
+                height: '26px', 
+                borderRadius: '16px', 
+                background: voiceCommandsEnabled ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+                position: 'relative',
+                transition: 'all 0.3s ease',
+                pointerEvents: 'none'
+              }}
+            >
+              <div style={{ 
+                position: 'absolute', 
+                top: '3px', 
+                left: voiceCommandsEnabled ? '27px' : '3px', 
+                width: '20px', 
+                height: '20px', 
+                borderRadius: '50%', 
+                background: '#fff',
+                transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              }} />
+            </div>
+          </div>
+          
+          {voiceCommandsEnabled && (
+              <div style={{ 
+                marginTop: '16px', 
+                padding: '12px', 
+                background: 'rgba(255, 255, 255, 0.03)', 
+                borderRadius: '12px',
+                fontSize: '0.75rem',
+                color: 'var(--text-muted)',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '8px'
+              }}>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--accent-primary)' }}>•</span> "Next Combo"
+                </div>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--accent-primary)' }}>•</span> "Previous Combo"
+                </div>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--accent-primary)' }}>•</span> "Pause Round"
+                </div>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--accent-primary)' }}>•</span> "Resume Round"
+                </div>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--accent-primary)' }}>•</span> 
+                  <span style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
+                    "Faster" {!isPro && (
+                      <span style={{ 
+                        fontSize: '0.6rem', 
+                        background: 'rgba(249, 115, 22, 0.1)', 
+                        color: 'var(--accent-secondary)', 
+                        padding: '1px 5px', 
+                        borderRadius: '4px', 
+                        fontWeight: '800',
+                        border: '1px solid rgba(249, 115, 22, 0.2)'
+                      }}>PRO</span>
+                    )}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--accent-primary)' }}>•</span> 
+                  <span style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '4px' }}>
+                    "Slower" {!isPro && (
+                      <span style={{ 
+                        fontSize: '0.6rem', 
+                        background: 'rgba(249, 115, 22, 0.1)', 
+                        color: 'var(--accent-secondary)', 
+                        padding: '1px 5px', 
+                        borderRadius: '4px', 
+                        fontWeight: '800',
+                        border: '1px solid rgba(249, 115, 22, 0.2)'
+                      }}>PRO</span>
+                    )}
+                  </span>
+                </div>
+              </div>
+          )}
+        </div>
+
+        <div className="flex-between spring-press" style={{ marginBottom: '24px', cursor: 'pointer' }} onClick={toggleCombinationMode}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)' }}>
+              {combinationMode === 'text' ? <Type size={22} color="var(--accent-primary)" /> : <Hash size={22} color="var(--accent-primary)" />}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Combination Display</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{combinationMode === 'text' ? 'Names (Jab, Cross...)' : 'Numbers (1, 2, 3...)'}</span>
+            </div>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: combinationMode === 'text' ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: combinationMode === 'text' ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+
+        <div className="flex-between spring-press" style={{ marginBottom: '8px', cursor: 'pointer' }} onClick={toggleStance}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)' }}>
+              <Shield size={22} color="var(--accent-primary)" />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Fighting Stance</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{stance}</span>
+            </div>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: stance === 'southpaw' ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: stance === 'southpaw' ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+
+      </div>
+
+      <div className="card animate-in" style={{ marginTop: '32px', animationDelay: '0.12s' }}>
+        <h2 className="heading-m" style={{ marginBottom: '24px', letterSpacing: '0.5px' }}>Training Features</h2>
+
+        <div style={{ marginTop: '0', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)' }}>
+              <Music size={22} color="var(--accent-primary)" />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Music Sync</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Quick-launch your favorite music app</span>
+            </div>
+          </div>
+          
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(4, 1fr)', 
+            gap: '10px',
+            padding: '4px'
+          }}>
+            {[
+              { id: 'none', label: 'None' },
+              { id: 'spotify', label: 'Spotify' },
+              { id: 'apple', label: 'Apple Music' },
+              { id: 'youtube', label: 'YT Music' }
+            ].map((provider) => (
+              <button
+                key={provider.id}
+                onClick={() => setMusicProvider(provider.id as any)}
+                className="spring-press"
+                style={{
+                  padding: '12px 6px',
+                  borderRadius: '12px',
+                  border: '1px solid ' + (selectedMusicProvider === provider.id ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.1)'),
+                  background: selectedMusicProvider === provider.id ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.03)',
+                  color: selectedMusicProvider === provider.id ? 'var(--accent-primary)' : 'var(--text-muted)',
+                  fontSize: '0.8rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  textAlign: 'center'
+                }}
+              >
+                {provider.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: '0', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)' }}>
+              <Timer size={22} color="var(--accent-primary)" />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Combination Pace</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>How often to switch combinations</span>
+            </div>
+          </div>
+          
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(5, 1fr)', 
+            gap: '10px',
+            padding: '4px'
+          }}>
+            {[15, 20, 30, 45, 60].map((pace) => (
+              <button
+                key={pace}
+                onClick={() => setWorkoutPace(pace)}
+                className="spring-press"
+                style={{
+                  padding: '12px 6px',
+                  borderRadius: '12px',
+                  border: '1px solid ' + (workoutPace === pace ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.1)'),
+                  background: workoutPace === pace ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.03)',
+                  color: workoutPace === pace ? 'var(--accent-primary)' : 'var(--text-muted)',
+                  fontSize: '0.9rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {pace}s
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex-between spring-press" style={{ marginBottom: '24px', cursor: 'pointer', opacity: isPro ? 1 : 0.6 }} onClick={() => !isPro ? setProModalOpen(true) : toggleRandomizedCombos()}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: randomizedCombos ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+              {!isPro ? <Lock size={22} color="var(--text-muted)" /> : <Wand2 size={22} color={randomizedCombos ? "var(--accent-primary)" : "var(--text-muted)"} />}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  Random Combinations {!isPro && <Lock size={12} />}
+                </span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Reaction training (no set patterns)</span>
+            </div>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: randomizedCombos ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: randomizedCombos ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+
+        <div className="flex-between spring-press" style={{ marginBottom: '24px', cursor: 'pointer' }} onClick={toggleBurnoutMode}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: burnoutMode ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+              <Volume2 size={22} color={burnoutMode ? "var(--accent-primary)" : "var(--text-muted)"} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Last Round Burnout</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Max intensity final 30s</span>
+            </div>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: burnoutMode ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: burnoutMode ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+
+        <div className="flex-between spring-press" style={{ marginBottom: '8px', cursor: 'pointer' }} onClick={toggleVisualRhythm}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: visualRhythm ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+              <Hash size={22} color={visualRhythm ? "var(--accent-primary)" : "var(--text-muted)"} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Visual Rhythm Guide</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Punch-by-punch lighting</span>
+            </div>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: visualRhythm ? 'var(--accent-primary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: visualRhythm ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+      </div>
+
+      <div className="card animate-in" style={{ marginTop: '32px', border: '1px solid rgba(88, 204, 2, 0.3)', animationDelay: '0.15s' }}>
+        <h2 className="heading-m" style={{ marginBottom: '16px', color: 'var(--accent-primary)', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Wand2 size={20} /> AI Integrations
+        </h2>
+        <p style={{ marginBottom: '16px', color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.5' }}>
+          Enable dynamic AI workouts by providing a Google Gemini API Key.
+        </p>
+        
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.03)', 
+          padding: '16px', 
+          borderRadius: '12px', 
+          marginBottom: '20px',
+          border: '1px solid var(--border)'
+        }}>
+          <h3 style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>How to get a key:</h3>
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <li style={{ display: 'flex', gap: '8px' }}>
+              <span style={{ color: 'var(--accent-primary)', fontWeight: 900 }}>1.</span> 
+              <span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-primary)', textDecoration: 'none', fontWeight: 700 }}>Google AI Studio <ExternalLink size={12} style={{ display: 'inline', marginBottom: '-1px' }} /></a></span>
+            </li>
+            <li style={{ display: 'flex', gap: '8px' }}>
+              <span style={{ color: 'var(--accent-primary)', fontWeight: 900 }}>2.</span> 
+              <span>Click "Create API Key" (it's free)</span>
+            </li>
+            <li style={{ display: 'flex', gap: '8px' }}>
+              <span style={{ color: 'var(--accent-primary)', fontWeight: 900 }}>3.</span> 
+              <span>Paste your key in the field below</span>
+            </li>
+          </ul>
+        </div>
+
+        <div style={{ marginBottom: '8px' }}>
+          <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '8px', textTransform: 'uppercase' }}>API Key</label>
+          <input 
+            type={showKey ? "text" : "password"}
+            placeholder="AIzaSy..."
+            value={geminiApiKey || ''}
+            onChange={(e) => setGeminiApiKey(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '14px 16px',
+              paddingRight: '120px',
+              borderRadius: '12px',
+              background: 'var(--bg-card-hover)',
+              border: '1px solid var(--border)',
+              color: '#fff',
+              fontSize: '1rem',
+              outline: 'none'
+            }}
+          />
+          <div style={{ position: 'absolute', right: '8px', top: '34px', display: 'flex', gap: '8px' }}>
+            <button 
+              onClick={() => setShowKey(!showKey)}
+              style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'var(--text-muted)', padding: '6px 10px', borderRadius: '8px', fontSize: '0.7rem', fontWeight: '700' }}
+            >
+              {showKey ? 'HIDE' : 'SHOW'}
+            </button>
+            {geminiApiKey && (
+              <button 
+                onClick={() => {
+                  if(confirm("Clear API Key?")) setGeminiApiKey('');
+                }}
+                style={{ background: 'rgba(239, 68, 68, 0.1)', border: 'none', color: 'var(--accent-primary)', padding: '6px 10px', borderRadius: '8px', fontSize: '0.7rem', fontWeight: '700' }}
+              >
+                CLEAR
+              </button>
+            )}
+          </div>
+        </div>
+        <p style={{ marginTop: '12px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
+          Your key is stored locally and never sent to our servers.
+        </p>
+      </div>
+
+      <div className="card animate-in" style={{ marginTop: '32px', border: '1px solid rgba(239, 68, 68, 0.3)', animationDelay: '0.2s' }}>
+        <h2 className="heading-m" style={{ marginBottom: '16px', color: 'var(--accent-primary)', fontSize: '1rem' }}>Danger Zone</h2>
+        <p style={{ marginBottom: '24px', color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.5' }}>
+          Resetting will permanently delete all your training history. You can also restore demo data to see how the app looks with active history.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <button 
+            className="btn-primary spring-press" 
+            style={{ 
+              background: 'rgba(57, 255, 20, 0.1)', 
+              color: 'var(--accent-secondary)', 
+              border: '1px solid var(--accent-secondary)',
+              boxShadow: 'none'
+            }}
+            onClick={() => {
+              useAppStore.getState().seedDummyData();
+              alert("Demo data restored!");
+            }}
+          >
+            <Wand2 size={18} /> Restore Demo Data
+          </button>
+          
+          <button 
+            className="btn-primary spring-press" 
+            style={{ 
+              background: 'rgba(239, 68, 68, 0.1)', 
+              color: 'var(--accent-primary)', 
+              border: '1px solid var(--accent-primary)',
+              boxShadow: 'none'
+            }}
+            onClick={handleReset}
+          >
+            <Trash2 size={18} /> Reset All History
+          </button>
+        </div>
+      </div>
+
+      <div className="card animate-in" style={{ marginTop: '32px', border: '1px solid rgba(255, 255, 255, 0.1)', animationDelay: '0.25s', marginBottom: '40px' }}>
+        <h2 className="heading-m" style={{ marginBottom: '16px', color: 'var(--text-muted)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Developer Options</h2>
+        <div className="flex-between spring-press" style={{ cursor: 'pointer' }} onClick={() => setProModalOpen(true)}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ padding: '10px', borderRadius: '12px', background: isPro ? 'rgba(57, 255, 20, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}>
+              <Shield size={22} color={isPro ? "var(--accent-secondary)" : "var(--text-muted)"} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700' }}>Pro Status</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{isPro ? 'Premium Active' : 'Free Tier'}</span>
+            </div>
+          </div>
+          <div 
+            style={{ 
+              width: '50px', 
+              height: '26px', 
+              borderRadius: '16px', 
+              background: isPro ? 'var(--accent-secondary)' : 'var(--bg-card-hover)',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ 
+              position: 'absolute', 
+              top: '3px', 
+              left: isPro ? '27px' : '3px', 
+              width: '20px', 
+              height: '20px', 
+              borderRadius: '50%', 
+              background: '#fff',
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }} />
+          </div>
+        </div>
+        <p style={{ marginTop: '16px', fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+          This toggle is for testing the Freemium flow locally.
+        </p>
+      </div>
+    </div>
+  );
+}
+

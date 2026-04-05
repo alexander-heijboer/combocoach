@@ -1,0 +1,49 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Recommended .gitignore for Vite/React/Mobile projects
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS related files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Mobile (Capacitor/Cordova)
+/android
+/ios
+/www
+/capacitor-cordova-android-plugins
+/capacitor-cordova-ios-plugins
+/assets/public
+
+# Build and Temp folder
+/build
+/temp
+/tmp
+
+# Testing
+/coverage
