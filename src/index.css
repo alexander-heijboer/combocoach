@@ -1882,14 +1882,15 @@ h6,
     top: 0;
     left: 0;
     bottom: 0;
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     height: 100vh;
     flex-direction: column;
     justify-content: flex-start;
     padding: 0;
     border-top: none;
     border-right: 1px solid var(--border);
-    transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     background: var(--bg-card);
     display: flex;
   }
@@ -2046,25 +2047,33 @@ h6,
 
   .sidebar-toggle {
     display: flex;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    align-items: center;
-    justify-content: center;
+    background: rgba(255, 255, 255, 0.08); /* Minimalist edge tab */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 100px;
+    width: 5px;
+    height: 80px;
     position: absolute;
-    top: 32px;
-    right: -16px;
+    top: 50%;
+    right: -3px; /* Hang halfway over the edge */
+    transform: translateY(-50%);
     cursor: pointer;
-    z-index: 100;
-    transition: background 0.2s ease;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Ultra smooth */
+    padding: 0;
   }
   
   .sidebar-toggle:hover {
-    background: var(--bg-card-hover);
-    color: var(--text);
+    background: var(--accent-primary);
+    width: 7px;
+    height: 100px;
+    right: -4px;
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.4), 0 0 10px rgba(239, 68, 68, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .sidebar-toggle svg {
+    display: none; /* Keep the sleek "grab handle" look from the image */
   }
 
   /* Responsive Grids */
