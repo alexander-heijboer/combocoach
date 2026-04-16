@@ -43,6 +43,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSupabaseUser(null);
       }
       setLoading(false);
+    }).catch(err => {
+      console.error("Supabase Session Error:", err);
+      setLoading(false);
     });
 
     // Listen to Auth state changes

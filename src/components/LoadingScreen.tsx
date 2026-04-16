@@ -17,19 +17,11 @@ const tips = [
 ];
 
 export default function LoadingScreen() {
-  const isWeb = Capacitor.getPlatform() === 'web';
-  // Standard desktop breakpoint is often 1024px
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const shouldShowOnWeb = isWeb && !isDesktop;
-  const shouldShow = !isWeb || shouldShowOnWeb;
-
-  const [isVisible, setIsVisible] = useState(shouldShow);
+  const [isVisible, setIsVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);
   const [tip, setTip] = useState("");
 
   useEffect(() => {
-    if (!shouldShow) return;
-
     // Select a random tip
     const randomTip = tips[Math.floor(Math.random() * tips.length)];
     setTip(randomTip);
@@ -48,7 +40,7 @@ export default function LoadingScreen() {
       clearTimeout(fadeTimer);
       clearTimeout(removeTimer);
     };
-  }, [shouldShow]);
+  }, []);
 
   if (!isVisible) return null;
 
