@@ -91,8 +91,6 @@ export const useAppStore = create<AppState>()(
       combinationMode: 'text',
       stance: 'orthodox',
       workoutPace: 30,
-      stance: 'orthodox',
-      workoutPace: 30,
       userId: crypto.randomUUID(),
       supabaseUserId: null,
       setSupabaseUser: async (userId) => {
@@ -153,6 +151,7 @@ export const useAppStore = create<AppState>()(
               rounds: w.rounds || 4,
               roundLength: w.round_length_seconds || 180,
               restBetweenRounds: w.rest_seconds || 60,
+              punchesEst: w.punches_est || 0,
               combinations: w.combinations || [],
               roundCombinations: w.round_combinations,
               isCustom: true

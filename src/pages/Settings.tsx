@@ -33,7 +33,7 @@ export default function Settings() {
     fullReset,
     addManualActivity
   } = useAppStore();
-  const { user, isGuest, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [manualPunches, setManualPunches] = useState('');
 
