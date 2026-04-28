@@ -246,16 +246,6 @@ export default function Dashboard() {
         </section>
       )}
 
-      <section className="stat-grid animate-in" style={{ animationDelay: '0.3s' }}>
-        <div className="stat-item">
-          <span className="stat-value">{totalWorkoutsCompleted}</span>
-          <span className="stat-label">Workouts</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-value">{punchesThrownEst.toLocaleString()}</span>
-          <span className="stat-label">Est. Punches</span>
-        </div>
-      </section>
 
       {activities.length > 0 && (
         <section className="animate-in" style={{ animationDelay: '0.35s', marginBottom: '32px' }}>

@@ -12,22 +12,39 @@ import CustomBuilder from './pages/CustomBuilder';
 import LoadingScreen from './components/LoadingScreen';
 import ProModal from './components/ProModal';
 import AuthScreen from './pages/AuthScreen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from './store/useAppStore';
 import { useAuth } from './contexts/AuthContext';
 import { Analytics } from '@vercel/analytics/react';
+import { Capacitor } from '@capacitor/core';
 import './App.css';
 
 function App() {
   const verifyProStatus = useAppStore(state => state.verifyProStatus);
   const { user, isGuest, loading } = useAuth();
+  const [showMobileSplash, setShowMobileSplash] = useState(() => {
+    return Capacitor.getPlatform() !== 'web';
+  });
 
   useEffect(() => {
     verifyProStatus();
   }, [verifyProStatus]);
 
-  if (loading) {
+  useEffect(() => {
+    if (showMobileSplash) {
+      const timer = setTimeout(() => {
+        setShowMobileSplash(false);
+      }, 3000); // Wait for LoadingScreen to finish its 3s animation
+      return () => clearTimeout(timer);
+    }
+  }, [showMobileSplash]);
+
+  if (showMobileSplash) {
     return <LoadingScreen />;
+  }
+
+  if (loading) {
+    return null;
   }
 
   if (!user && !isGuest) {
@@ -37,7 +54,6 @@ function App() {
   return (
     <>
       <Analytics />
-      {user === null && isGuest && <LoadingScreen />} {/* Minimal loading if guest takes a sec */}
       <ProModal />
       <BrowserRouter>
         <Routes>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../utils/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import './AuthScreen.css'; 
+import './AuthScreen.css';
 import { FcGoogle } from 'react-icons/fc';
 
 const AuthScreen: React.FC = () => {
@@ -50,7 +50,6 @@ const AuthScreen: React.FC = () => {
         <div className="logo-container">
           <img src="/assets/logo.png" alt="ComboCoach Logo" className="auth-logo" />
         </div>
-        <p className="auth-subtitle">{isLogin ? 'Welcome back, Champion' : 'Start your boxing journey'}</p>
         {isLogin && <div className="header-divider"></div>}
 
         {error && <div className="auth-alert error">{error}</div>}

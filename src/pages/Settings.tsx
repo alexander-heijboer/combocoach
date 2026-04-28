@@ -69,45 +69,7 @@ export default function Settings() {
         </button>
       </div>
 
-      <div className="card animate-in" style={{ marginTop: '32px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-        <h2 className="heading-m" style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <UserIcon size={20} color="var(--accent-primary)" />
-          Account Management
-        </h2>
-        <div className="flex-between" style={{ marginBottom: '16px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '1rem', fontWeight: '700' }}>
-              {user ? 'Logged In' : 'Guest Mode'}
-            </span>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              {user ? user.email : 'Free Tier Only. No Cloud Sync.'}
-            </span>
-          </div>
-        </div>
-        
-        <button 
-            className="btn-primary spring-press" 
-            style={{ 
-              background: user ? 'rgba(255, 255, 255, 0.05)' : 'var(--primary)', 
-              color: user ? '#fff' : '#fff', 
-              border: user ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-              boxShadow: 'none'
-            }}
-            onClick={async () => {
-              if (user) {
-                if (window.confirm('Are you sure you want to sign out?')) {
-                  await signOut();
-                }
-              } else {
-                await signOut(); // This clears guest state
-              }
-            }}
-          >
-            {user ? <><LogOut size={18} /> Sign Out</> : <><LogIn size={18} /> Sign In / Register</>}
-        </button>
-      </div>
-
-      <div className="card animate-in" style={{ marginTop: '24px', animationDelay: '0.1s' }}>
+      <div className="card animate-in" style={{ marginTop: '32px', animationDelay: '0.1s' }}>
         <h2 className="heading-m" style={{ marginBottom: '24px', letterSpacing: '0.5px' }}>Preferences</h2>
         
         <div className="flex-between spring-press" style={{ marginBottom: '24px', cursor: 'pointer' }} onClick={toggleSound}>
@@ -555,6 +517,44 @@ export default function Settings() {
             }} />
           </div>
         </div>
+      </div>
+
+      <div className="card animate-in" style={{ marginTop: '32px', border: '1px solid rgba(255, 255, 255, 0.1)', animationDelay: '0.16s' }}>
+        <h2 className="heading-m" style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <UserIcon size={20} color="var(--accent-primary)" />
+          Account Management
+        </h2>
+        <div className="flex-between" style={{ marginBottom: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '1rem', fontWeight: '700' }}>
+              {user ? 'Logged In' : 'Guest Mode'}
+            </span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              {user ? user.email : 'Free Tier Only. No Cloud Sync.'}
+            </span>
+          </div>
+        </div>
+        
+        <button 
+            className="btn-primary spring-press" 
+            style={{ 
+              background: user ? 'rgba(255, 255, 255, 0.05)' : 'var(--primary)', 
+              color: user ? '#fff' : '#fff', 
+              border: user ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+              boxShadow: 'none'
+            }}
+            onClick={async () => {
+              if (user) {
+                if (window.confirm('Are you sure you want to sign out?')) {
+                  await signOut();
+                }
+              } else {
+                await signOut(); // This clears guest state
+              }
+            }}
+          >
+            {user ? <><LogOut size={18} /> Sign Out</> : <><LogIn size={18} /> Sign In / Register</>}
+        </button>
       </div>
 
       <div className="card animate-in" style={{ marginTop: '32px', border: '1px solid rgba(239, 68, 68, 0.3)', animationDelay: '0.2s' }}>
